@@ -5,6 +5,7 @@ import {
   primaryKey,
   integer,
   serial,
+  real
 } from "drizzle-orm/pg-core";
 import type { AdapterAccountType } from "next-auth/adapters";
 
@@ -72,4 +73,5 @@ export const items = pgTable("items", {
   id: serial("id").primaryKey(),
   userId: text("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
+  startingPrice: real("startingPrice").notNull().default(0),
 })

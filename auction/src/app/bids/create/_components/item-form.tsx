@@ -8,27 +8,39 @@ import { useForm } from "react-hook-form";
 import { Form, FormField, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { createItemAction } from "../actions";
+import { toast } from "sonner";
 
 type Props = {};
 
-const formSchema = z.object({
+const itemFormSchema = z.object({
   name: z.string(),
+  price: z.string().default("0"),
 });
 
-type FormType = z.infer<typeof formSchema>;
+export type itemFormType = z.infer<typeof itemFormSchema>;
 
 const ItemForm = (props: Props) => {
-  const form = useForm<FormType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<itemFormType>({
+    resolver: zodResolver(itemFormSchema),
     defaultValues: {
       name: "",
+      price: "1",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (data: FormType) => {
-    console.log(data);
+  const onSubmit = async (data: itemFormType) => {
+    // if (!parseFloat(data.price) || parseFloat(data.price) <= 0) {
+    //   toast.info("Product price need to be a number and greater than 0.");
+    //   return;
+    // }
+    try {
+      await createItemAction(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -48,6 +60,24 @@ const ItemForm = (props: Props) => {
               {...field}
               className=""
             />
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="price"
+          render={({ field }) => (
+            <div className="relative flex items-center">
+              <Input
+                placeholder="Starting price"
+                disabled={isLoading}
+                {...field}
+                type="number"
+                step="0.01"
+                min="0"
+                className="px-6"
+              />
+              <span className="absolute left-2">$</span>
+            </div>
           )}
         />
         <Button className="w-1/4 self-end" disabled={isLoading}>
