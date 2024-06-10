@@ -10,7 +10,9 @@ export const env = createEnv({
     ACCOUNT_ID: z.string().min(1),
     BUCKET_NAME: z.string().min(1),
   },
-  client: {},
+  client: {
+    NEXT_PUBLIC_BUCKET_URL: z.string().min(1),
+  },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
@@ -18,5 +20,6 @@ export const env = createEnv({
     SECRET_ACCESS_KEY: process.env.SECRET_ACCESS_KEY,
     ACCOUNT_ID: process.env.ACCOUNT_ID,
     BUCKET_NAME: process.env.BUCKET_NAME,
+    NEXT_PUBLIC_BUCKET_URL: process.env.NEXT_PUBLIC_BUCKET_URL,
   },
 });

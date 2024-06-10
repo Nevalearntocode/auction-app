@@ -3,8 +3,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { createItemAction, createUploadUrlAction } from "./actions";
+import { useState } from "react";
+import ImageUpload from "@/components/image-upload";
 
 export default function CreatePage() {
+  const [file, setFile] = useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setFile(file);
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+  };
+
   return (
     <main className="container space-y-8 px-12 py-12">
       <h1 className="text-3xl font-bold">Post an Item</h1>
@@ -16,28 +31,27 @@ export default function CreatePage() {
 
           const form = e.currentTarget as HTMLFormElement;
           const formData = new FormData(form);
-          const file = formData.get("file") as File;
+          if (file) {
+            const uploadUrl = await createUploadUrlAction(file.name, file.type);
 
-          const uploadUrl = await createUploadUrlAction(file.name, file.type);
+            await fetch(uploadUrl, {
+              method: "PUT",
+              body: file,
+              headers: {
+                "Content-Type": file.type,
+              },
+            });
+            const name = formData.get("name") as string;
+            const startingPrice = parseFloat(
+              formData.get("startingPrice") as string,
+            );
 
-          await fetch(uploadUrl, {
-            method: "PUT",
-            body: file,
-            headers: {
-              "Content-Type": file.type,
-            }
-          });
-
-          const name = formData.get("name") as string;
-          const startingPrice = parseFloat(
-            formData.get("startingPrice") as string,
-          );
-
-          await createItemAction({
-            name,
-            startingPrice,
-            fileName: file.name,
-          });
+            await createItemAction({
+              name,
+              startingPrice,
+              fileName: file.name,
+            });
+          }
         }}
       >
         <Input
@@ -54,7 +68,11 @@ export default function CreatePage() {
           step="0.01"
           placeholder="What to start your auction at"
         />
-        <Input type="file" name="file"></Input>
+        <ImageUpload
+          onChange={handleFileChange}
+          onRemove={removeFile}
+          value={file}
+        />
         <Button className="self-end" type="submit">
           Post Item
         </Button>

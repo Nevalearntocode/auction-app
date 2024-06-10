@@ -5,12 +5,11 @@ import { Button } from "./ui/button";
 import { ImagePlus, X } from "lucide-react";
 import { Input } from "./ui/input";
 import Image from "next/image";
-import { onImageUpload } from "@/lib/utils";
 
 type Props = {
-  onChange: (image: File | undefined) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove: () => void;
-  value: File | string | undefined;
+  value: File | null;
 };
 
 const ImageUpload = ({ onChange, value, onRemove }: Props) => {
@@ -68,12 +67,7 @@ const ImageUpload = ({ onChange, value, onRemove }: Props) => {
             type="file"
             ref={inputImageRef}
             accept="image/*"
-            onChange={(e) => {
-              if (e.target.files) {
-                console.log(e.target.files);
-                onChange(onImageUpload(e.target));
-              }
-            }}
+            onChange={(e) => onChange(e)}
             className="hidden"
           />
         </>

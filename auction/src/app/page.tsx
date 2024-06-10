@@ -1,5 +1,6 @@
-import ItemList from "./bids/create/_components/item-list";
+import ItemList from "./_components/item-list";
 import { database } from "@/db/database";
+
 
 export default async function Home() {
   const items = await database.query.items.findMany()

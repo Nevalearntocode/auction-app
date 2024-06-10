@@ -21,14 +21,15 @@ export async function createItemAction({
 }) {
   const { user } = await getCurrentSession();
 
-  if (!user) {
+  if (!user || !user.id) {
     throw new Error("Unauthorized");
   }
 
   await database.insert(items).values({
     name: name,
     startingPrice,
-    userId: user.id as string,
+    fileName,
+    userId: user.id,
   });
 
   redirect("/");
