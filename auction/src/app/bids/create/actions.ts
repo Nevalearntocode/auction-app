@@ -4,9 +4,21 @@ import { getCurrentSession } from "@/app/actions";
 import { database } from "@/db/database";
 import { items } from "@/db/schema";
 import { redirect } from "next/navigation";
-import { itemFormType } from "./_components/item-form";
+import { getSignedUrlForS3Object } from "@/lib/s3";
 
-export async function createItemAction(data: itemFormType) {
+export async function createUploadUrlAction(key: string, type: string) {
+  return await getSignedUrlForS3Object(key, type);
+}
+
+export async function createItemAction({
+  name,
+  startingPrice,
+  fileName,
+}: {
+  name: string;
+  startingPrice: number;
+  fileName: string;
+}) {
   const { user } = await getCurrentSession();
 
   if (!user) {
@@ -14,8 +26,8 @@ export async function createItemAction(data: itemFormType) {
   }
 
   await database.insert(items).values({
-    name: data.name,
-    startingPrice: parseFloat(data.price),
+    name: name,
+    startingPrice,
     userId: user.id as string,
   });
 
