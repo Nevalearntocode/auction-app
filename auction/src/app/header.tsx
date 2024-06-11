@@ -18,9 +18,17 @@ const Header = async (props: Props) => {
             <Image src={`/logo.png`} width={50} height={50} alt="logo" />
             Auction.com
           </Link>
-          <Link href={`/bids/create`} className="hover:underline">
-            Post an item
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link href={`/`} className="hover:underline">
+              All auctions
+            </Link>
+            <Link href={`/bids/create`} className="hover:underline">
+              Create auction
+            </Link>
+            <Link href={`/auctions`} className="hover:underline">
+              My auctions{" "}
+            </Link>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <div>{session?.user?.name}</div>

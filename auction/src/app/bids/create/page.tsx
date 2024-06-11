@@ -21,7 +21,7 @@ export default function CreatePage() {
   };
 
   return (
-    <main className="container space-y-8 px-12 py-12">
+    <main className="space-y-8 px-12">
       <h1 className="text-3xl font-bold">Post an Item</h1>
 
       <form

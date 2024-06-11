@@ -75,4 +75,5 @@ export const items = pgTable("items", {
   name: text("name").notNull(),
   startingPrice: real("startingPrice").notNull().default(0),
   fileName: text("fileName").notNull(),
+  bidInterval: real("bidInterval").notNull().default(1),
 })

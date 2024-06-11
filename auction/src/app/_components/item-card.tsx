@@ -1,29 +1,35 @@
-"use client"
+"use client";
 
-import { items } from '@/db/schema'
-import { getImageUrl } from '@/lib/utils'
-import Image from 'next/image'
-import React from 'react'
+import { Button } from "@/components/ui/button";
+import { items } from "@/db/schema";
+import { getImageUrl } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 type Props = {
-    item: (typeof items.$inferSelect),
-}
+  item: typeof items.$inferSelect;
+};
 
-const ItemCard = ({item}: Props) => {
+const ItemCard = ({ item }: Props) => {
   return (
-    <div className="flex flex-col gap-2 rounded-md border p-4">
+    <div className="flex flex-col justify-between gap-2 rounded-xl border p-8">
       <Image
         src={getImageUrl(item.fileName)}
         alt={item.name}
-        width={200}
-        height={200}
-        className="h-36 w-auto rounded-md"
+        width={400}
+        height={400}
+        className="aspect-[1.2/1] w-full rounded-lg border"
       />
-      <h3 className="text-xl font-semibold">{item.name}</h3>
-      <p>Starting price: $ {item.startingPrice}</p>
-      <div></div>
+      <div className="flex flex-col gap-y-2">
+        <h3 className="text-xl font-semibold">{item.name}</h3>
+        <p className="text-lg">Starting price: $ {item.startingPrice}</p>
+        <Button asChild>
+          <Link href={`/bids/${item.id}`}>Place Bid</Link>
+        </Button>
+      </div>
     </div>
   );
-}
+};
 
-export default ItemCard
+export default ItemCard;

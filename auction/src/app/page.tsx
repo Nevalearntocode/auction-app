@@ -1,13 +1,12 @@
 import ItemList from "./_components/item-list";
-import { database } from "@/db/database";
+import { getAllItems } from "./actions";
 
 
 export default async function Home() {
-  const items = await database.query.items.findMany()
-
+  const allItems = await getAllItems()
   return (
-    <main className="container mx-auto my-12 flex flex-col gap-8">
-      <ItemList items={items} />
+    <main className="flex flex-col gap-8">
+      <ItemList items={allItems} />
     </main>
   );
 }
