@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Inter as FontSans } from "next/font/google";
 import Header from "./header";
 import { Toaster } from "@/components/ui/sonner";
+import ModalProvider from "@/providers/modal-provider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
