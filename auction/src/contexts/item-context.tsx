@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 import { items } from "@/db/schema";
 
-export const ItemContext = createContext<typeof items.$inferInsert | null>(
+export const ItemContext = createContext<typeof items.$inferSelect | null>(
   null,
 );
 
@@ -12,7 +12,7 @@ export function ItemContextProvider({
   value,
 }: {
   children: React.ReactNode;
-  value: typeof items.$inferInsert;
+  value: typeof items.$inferSelect;
 }) {
   return <ItemContext.Provider value={value}>{children}</ItemContext.Provider>;
 }

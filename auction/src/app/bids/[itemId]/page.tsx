@@ -1,38 +1,29 @@
-"use client"
-
 import React from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { formatTimestamp } from "@/lib/utils";
-import { useItemContext } from "@/contexts/item-context";
 import ItemImage from "./_components/item-image";
 import BiddingInfo from "./_components/bidding-info";
+import ItemInfo from "./_components/item-info";
+import { database } from "@/db/database";
+import { bids } from "@/db/schema";
+import { desc, eq } from "drizzle-orm";
 type Props = {
   params: {
     itemId: string;
   };
 };
 
-const ItemDetail = ({ params }: Props) => {
-  const item = useItemContext()
+const ItemDetail = async ({ params }: Props) => {
+  const currentBids = await database.query.bids.findMany({
+    where: eq(bids.itemId, parseInt(params.itemId)),
+    orderBy: desc(bids.id),
+    with: { user: true },
+  })
 
   return (
     <main className="w-full">
       <div className="grid w-full grid-cols-2 gap-8">
-        <ItemImage itemImage={item.fileName} itemName={item.name} />
-        <BiddingInfo />
-        <div className="flex flex-col">
-          <div className="text-xl">
-            Starting price of{" "}
-            <span className="font-bold">${item.startingPrice}</span>
-          </div>
-          <div>
-            <p className="text-sm italic">
-              Bid interval:{" "}
-              <span className="font-semibold">${item.bidInterval}</span>
-            </p>
-          </div>
-        </div>
+        <ItemImage />
+        <BiddingInfo bids={currentBids} />
+        <ItemInfo />
       </div>
     </main>
   );

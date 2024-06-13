@@ -21,7 +21,7 @@ export async function createBidAction(itemId: number, amount: number) {
     const latestBidValue = item.currentBid + amount;
 
     await database.insert(bids).values({
-        amount: latestBidValue,
+        amount,
         itemId,
         userId: user.id
     })

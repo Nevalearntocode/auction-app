@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,13 +29,13 @@ const BiddingModal = (props: Props) => {
   const form = useForm<FormType>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      amount: item.bidInterval!.toString(),
+      amount: item.bidInterval.toString(),
     },
   });
 
   const isLoading = form.formState.isSubmitting;
-  const interval = item.bidInterval!;
-  const currentBid = item.currentBid!;
+  const interval = item.bidInterval
+  const currentBid = item.currentBid
   const biddingAmount: string | number = form.watch("amount");
   function calculateTotalPrice(
     biddingAmount: string | number,
@@ -56,7 +56,7 @@ const BiddingModal = (props: Props) => {
 
   const onSubmit = async (data: FormType) => {
     try {
-      await createBidAction(item.id!, parseFloat(data.amount));
+      await createBidAction(item.id, parseFloat(data.amount));
       toast.success("Bid created successfully");
       onClose();
     } catch (error) {

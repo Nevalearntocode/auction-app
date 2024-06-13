@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   timestamp,
   pgTable,
@@ -88,6 +89,17 @@ export const bids = pgTable("bids", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+    timestamp: timestamp("timestamp", { mode: "date" }).notNull().default(new Date()),
 });
 
+export const userBidsRelation = relations(users, ({many}) => ({
+  bids: many(bids),
+}))
+
+export const bidsUsersRelation = relations(bids, ({one}) => ({
+  user: one(users, {
+    fields: [bids.userId],
+    references: [users.id],
+  }),
+}))
 

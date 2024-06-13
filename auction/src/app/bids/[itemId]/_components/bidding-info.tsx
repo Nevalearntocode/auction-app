@@ -1,19 +1,16 @@
-import { Button } from "@/components/ui/button";
 import { formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import BiddingButton from "./bidding-button";
+import { bid, user } from "@/types";
 
-type Props = {};
+type Props = {
+  bids: (bid & {
+    user: user;
+  })[];
+};
 
-const BiddingInfo = (props: Props) => {
-  const bids: {
-    id: number;
-    name: string;
-    amount: number;
-    timestamp: Date;
-  }[] = [];
-
+const BiddingInfo = ({ bids }: Props) => {
   const hasBids = bids.length > 0;
   return (
     <div className="flex w-full flex-col items-center space-y-8">
@@ -29,9 +26,7 @@ const BiddingInfo = (props: Props) => {
                 <div className="flex gap-4">
                   <div className="flex items-center gap-1">
                     <span className="font-bold">${bid.amount}</span> by
-                    <span className="font-semibold">{bid.name}</span>
-                  </div>
-                  <div>
+                    <span className="font-semibold">{bid.user.name}</span>
                     <span className="text-sm">
                       {formatTimestamp(bid.timestamp)}
                     </span>
