@@ -16,6 +16,7 @@ const ItemDetail = async ({ params }: Props) => {
     where: eq(bids.itemId, parseInt(params.itemId)),
     orderBy: desc(bids.id),
     with: { user: true },
+    limit: 4,
   })
 
   return (
@@ -23,7 +24,7 @@ const ItemDetail = async ({ params }: Props) => {
       <div className="grid w-full grid-cols-2 gap-8">
         <ItemImage />
         <BiddingInfo bids={currentBids} />
-        <ItemInfo />
+        <ItemInfo bids={currentBids} />
       </div>
     </main>
   );

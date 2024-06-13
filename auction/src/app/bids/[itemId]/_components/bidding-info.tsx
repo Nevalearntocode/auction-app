@@ -1,3 +1,5 @@
+"use client"
+
 import { formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
@@ -14,9 +16,9 @@ const BiddingInfo = ({ bids }: Props) => {
   const hasBids = bids.length > 0;
   return (
     <div className="flex w-full flex-col items-center space-y-8">
-      <h2 className="text-2xl font-bold">Current bids</h2>
+      <h2 className="text-3xl font-bold">Current bids</h2>
       {hasBids ? (
-        <>
+        <div className="flex justify-between flex-col h-full">
           <ul className="space-y-8">
             {bids.map((bid) => (
               <li
@@ -25,7 +27,7 @@ const BiddingInfo = ({ bids }: Props) => {
               >
                 <div className="flex gap-4">
                   <div className="flex items-center gap-1">
-                    <span className="font-bold">${bid.amount}</span> by
+                    <span className="font-bold">${bid.total}</span> by
                     <span className="font-semibold">{bid.user.name}</span>
                     <span className="text-sm">
                       {formatTimestamp(bid.timestamp)}
@@ -35,7 +37,7 @@ const BiddingInfo = ({ bids }: Props) => {
               </li>
             ))}
           </ul>
-        </>
+        </div>
       ) : (
         <div className="h-full w-full rounded-xl bg-muted">
           <div className="flex h-5/6 w-full flex-1 flex-col items-center justify-center gap-8 rounded-xl">

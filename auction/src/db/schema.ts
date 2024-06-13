@@ -81,6 +81,7 @@ export const items = pgTable("items", {
 export const bids = pgTable("bids", {
   id: serial("id").primaryKey(),
   amount: real("amount").notNull(),
+  total: real("total").notNull().default(0),
   itemId: integer("itemId")
     .notNull()
     .references(() => items.id, {

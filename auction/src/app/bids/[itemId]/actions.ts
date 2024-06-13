@@ -21,10 +21,11 @@ export async function createBidAction(itemId: number, amount: number) {
     const latestBidValue = item.currentBid + amount;
 
     await database.insert(bids).values({
-        amount,
-        itemId,
-        userId: user.id
-    })
+      amount,
+      itemId,
+      userId: user.id,
+      total: latestBidValue,
+    });
 
     await database.update(items).set({currentBid: latestBidValue}).where(eq(items.id, itemId))
     revalidatePath(`/bids/${itemId}`)
