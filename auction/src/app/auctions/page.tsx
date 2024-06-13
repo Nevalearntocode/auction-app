@@ -1,7 +1,7 @@
 import React from "react";
-import { getCurrentUserItems } from "../actions";
 import ItemList from "../_components/item-list";
 import EmptyState from "./empty-state";
+import { getCurrentUserItems } from "@/data-access/items";
 
 type Props = {};
 

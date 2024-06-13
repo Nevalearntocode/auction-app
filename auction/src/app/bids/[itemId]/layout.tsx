@@ -5,6 +5,7 @@ import { items } from "@/db/schema";
 import { ItemContextProvider } from "@/contexts/item-context";
 import EmptyState from "./_components/empty-state";
 import ModalProvider from "@/providers/modal-provider";
+import { getItemById } from "@/data-access/items";
 
 type Props = {
   params: {
@@ -14,9 +15,7 @@ type Props = {
 };
 
 const ItemLayout = async ({ params, children }: Props) => {
-  const item = await database.query.items.findFirst({
-    where: eq(items.id, parseInt(params.itemId)),
-  });
+  const item = await getItemById(params.itemId);
 
   if (!item) {
     return <EmptyState />;

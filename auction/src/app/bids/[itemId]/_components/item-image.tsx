@@ -17,12 +17,12 @@ const ItemImage = ({}: Props) => {
         <span className="font-normal">Auction for </span>
         {item.name}
       </h1>
-      <div className="relative aspect-[1.2/1] w-5/6 flex-1 rounded-xl">
+      <div className="relative aspect-[1.2/1] w-2/3 flex-1 rounded-xl">
         <Image
           src={getImageUrl(item.fileName)}
           alt={item.name}
           fill
-          className="aspect-video rounded-xl bg-muted p-12"
+          className="aspect-video rounded-xl bg-muted p-8"
         />
       </div>
     </div>

@@ -4,6 +4,7 @@ import { SignOut } from "@/components/sign-out";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import Notification from "./_components/notification";
 
 type Props = {};
 
@@ -31,6 +32,7 @@ const Header = async (props: Props) => {
           </div>
         </div>
         <div className="flex items-center gap-4">
+          {session && <Notification />}
           <div>{session?.user?.name}</div>
           <div>{session ? <SignOut /> : <SignIn />}</div>
         </div>

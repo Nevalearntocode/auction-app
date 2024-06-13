@@ -90,17 +90,31 @@ export const bids = pgTable("bids", {
   userId: text("userId")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-    timestamp: timestamp("timestamp", { mode: "date" }).notNull().default(new Date()),
+  timestamp: timestamp("timestamp", { mode: "date" })
+    .notNull()
+    .default(new Date()),
 });
 
-export const userBidsRelation = relations(users, ({many}) => ({
+export const userRelations = relations(users, ({ many }) => ({
+  items: many(items),
   bids: many(bids),
-}))
+}));
 
-export const bidsUsersRelation = relations(bids, ({one}) => ({
+export const itemRelations = relations(items, ({ one, many }) => ({
+  user: one(users, {
+    fields: [items.userId],
+    references: [users.id],
+  }),
+  bids: many(bids),
+}));
+
+export const bidRelations = relations(bids, ({ one }) => ({
   user: one(users, {
     fields: [bids.userId],
     references: [users.id],
   }),
-}))
-
+  item: one(items, {
+    fields: [bids.itemId],
+    references: [items.id],
+  }),
+}));

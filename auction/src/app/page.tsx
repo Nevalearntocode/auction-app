@@ -1,5 +1,5 @@
+import { getAllItems } from "@/data-access/items";
 import ItemList from "./_components/item-list";
-import { getAllItems } from "./actions";
 
 
 export default async function Home() {

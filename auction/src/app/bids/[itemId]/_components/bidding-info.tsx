@@ -1,14 +1,17 @@
-"use client"
+"use client";
 
 import { formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
 import BiddingButton from "./bidding-button";
-import { bid, user } from "@/types";
+import { bid } from "@/types";
 
 type Props = {
   bids: (bid & {
-    user: user;
+    user: {
+      name: string | null;
+      image: string | null;
+    };
   })[];
 };
 
@@ -16,9 +19,18 @@ const BiddingInfo = ({ bids }: Props) => {
   const hasBids = bids.length > 0;
   return (
     <div className="flex w-full flex-col items-center space-y-8">
-      <h2 className="text-3xl font-bold">Current bids</h2>
+      <div className="flex w-full justify-between">
+        <h2 className="text-3xl font-bold">
+          {
+            hasBids
+              ? `Current bids`
+              : "Currently no bids"
+          }
+        </h2>
+        {hasBids && <BiddingButton state="manual" />}
+      </div>
       {hasBids ? (
-        <div className="flex justify-between flex-col h-full">
+        <div className="flex h-full flex-col justify-between self-start w-full">
           <ul className="space-y-8">
             {bids.map((bid) => (
               <li

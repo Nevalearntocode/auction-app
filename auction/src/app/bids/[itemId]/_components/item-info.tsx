@@ -6,33 +6,30 @@ import BiddingButton from "./bidding-button";
 import { bid } from "@/types";
 
 type Props = {
-  bids: bid[]
 };
 
-const ItemInfo = ({bids}: Props) => {
+const ItemInfo = ({}: Props) => {
   const item = useItemContext();
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex flex-col">
-        <div className="text-xl">
-          Starting price of{" "}
-          <span className="font-bold">${item.startingPrice}</span>
+        <div className="text-xl font-semibold pb-2">
+          Starting price: <span className="font-bold">${item.startingPrice}</span>
         </div>
-        <div>
-          <p className="text-sm italic">
-            Bid interval:{" "}
-            <span className="font-semibold">${item.bidInterval}</span>
+        <div className="pt-2">
+          <p className="text-sm font-semibold pb-2">
+            Current price: <span className="font-bold">${item.currentBid}</span>
+          </p>
+        </div>
+        <div className="pt-2">
+          <p className="text-sm italic pb-2">
+            Bid interval: <span className="font-semibold">${item.bidInterval}</span>
           </p>
         </div>
       </div>
-      {bids.length > 0 && (
-
-      <div className="flex items-center gap-8">
-        <BiddingButton state="manual" />
-      </div>
-      )}
     </div>
   );
 };
 
 export default ItemInfo;
+
