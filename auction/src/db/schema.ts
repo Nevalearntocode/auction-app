@@ -76,6 +76,9 @@ export const items = pgTable("items", {
   fileName: text("fileName").notNull(),
   bidInterval: real("bidInterval").notNull().default(1),
   currentBid: real("currentBid").notNull().default(0),
+  endDate: timestamp("endDate", { mode: "date" })
+    .notNull()
+    .default(new Date(Date.now() + 24 * 60 * 60 * 1000)),
 });
 
 export const bids = pgTable("bids", {

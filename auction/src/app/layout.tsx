@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 import ModalProvider from "@/providers/modal-provider";
 import { NotificationContext } from "@/contexts/notification-context";
 import { getCurrentSession } from "@/data-access/users";
+import { UserContextProvider } from "@/contexts/user-context";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -35,9 +36,12 @@ export default async function RootLayout({
         )}
       >
         <NotificationContext userId={user?.id}>
+          <UserContextProvider value={user?.id}>
+            
           <Toaster />
           <Header />
           <div className="container mx-auto py-12">{children}</div>
+          </UserContextProvider>
         </NotificationContext>
       </body>
     </html>

@@ -15,11 +15,13 @@ export async function createItemAction({
   startingPrice,
   fileName,
   interval,
+  endDate
 }: {
   name: string;
   startingPrice: number;
   fileName: string;
   interval: number;
+  endDate: Date;
 }) {
   const { user } = await getCurrentSession();
 
@@ -37,6 +39,7 @@ export async function createItemAction({
     userId: user.id,
     bidInterval: formattedInterval,
     currentBid: formattedStartingPrice,
+    endDate
   });
 
   redirect("/");

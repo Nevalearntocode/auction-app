@@ -1,9 +1,8 @@
 "use client";
 
 import { useItemContext } from "@/contexts/item-context";
+import { format } from "date-fns";
 import React from "react";
-import BiddingButton from "./bidding-button";
-import { bid } from "@/types";
 
 type Props = {
 };
@@ -25,6 +24,17 @@ const ItemInfo = ({}: Props) => {
           <p className="text-sm italic pb-2">
             Bid interval: <span className="font-semibold">${item.bidInterval}</span>
           </p>
+        </div>
+        <div className="pt-2">
+          {item.endDate < new Date() ? (
+            <p className="text-sm italic pb-2">
+              Auction has ended.
+            </p>
+          ) : (
+            <p className="text-sm italic pb-2">
+              Ends on: <span className="font-semibold">{format(item.endDate, "EEEE, d MMMM")}</span>
+            </p>
+          )}
         </div>
       </div>
     </div>

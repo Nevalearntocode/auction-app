@@ -6,6 +6,7 @@ import { getImageUrl } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { format } from 'date-fns'
 
 type Props = {
   item: typeof items.$inferSelect;
@@ -23,7 +24,10 @@ const ItemCard = ({ item }: Props) => {
       />
       <div className="flex flex-col gap-y-2">
         <h3 className="text-xl font-semibold">{item.name}</h3>
-        <p className="text-lg">Starting price: $ {item.startingPrice}</p>
+        <p className="text-lg font-semibold">Current Price: ${item.currentBid}</p>
+        <p className="text-lg">
+          End on: {format(item.endDate, "EEEE, do MMMM")}
+        </p>
         <Button asChild>
           <Link href={`/bids/${item.id}`}>Place Bid</Link>
         </Button>

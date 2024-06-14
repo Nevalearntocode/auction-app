@@ -12,6 +12,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { createItemAction, createUploadUrlAction } from "../actions";
 import { Button } from "@/components/ui/button";
+import { DatePicker } from "@/components/date-picker";
 
 type Props = {};
 
@@ -20,6 +21,7 @@ const formSchema = z.object({
   startingPrice: z.string().min(1, { message: "Starting price is required" }),
   file: z.instanceof(File).nullable(),
   bidInterval: z.string().default("1"),
+  endDate: z.instanceof(Date).default(new Date(Date.now() + 24 * 60 * 60 * 1000)),
 });
 
 export type CreateItemFormType = z.infer<typeof formSchema>;
@@ -32,10 +34,10 @@ const CreateForm = (props: Props) => {
       startingPrice: "",
       file: null,
       bidInterval: "1",
+      endDate: new Date(Date.now() + 24 * 60 * 60 * 1000),
     },
   });
 
-  const { handleSubmit, register, formState: { errors } } = form;
   const isLoading = form.formState.isSubmitting;
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,6 +71,7 @@ const CreateForm = (props: Props) => {
         startingPrice,
         interval: bidInterval,
         fileName: data.file.name,
+        endDate: data.endDate,
       });
       toast.success("Item created successfully"); 
     } catch (error) {
@@ -80,7 +83,7 @@ const CreateForm = (props: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="flex max-w-lg flex-col space-y-4 rounded-xl border p-8"
       >
         <FormField
@@ -147,6 +150,20 @@ const CreateForm = (props: Props) => {
                   step="0.01"
                   className="max-w-lg"
                   placeholder="Interval"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="endDate"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <DatePicker
+                  onChange={field.onChange}
                 />
               </FormControl>
             </FormItem>

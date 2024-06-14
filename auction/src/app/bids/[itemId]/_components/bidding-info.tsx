@@ -3,8 +3,10 @@
 import { formatTimestamp } from "@/lib/utils";
 import Image from "next/image";
 import React from "react";
-import BiddingButton from "./bidding-button";
 import { bid } from "@/types";
+import { useItemContext } from "@/contexts/item-context";
+import { useUserContext } from "@/contexts/user-context";
+import BiddingButton from "./bidding-button";
 
 type Props = {
   bids: (bid & {
@@ -16,18 +18,18 @@ type Props = {
 };
 
 const BiddingInfo = ({ bids }: Props) => {
+  const item = useItemContext();
+  const userId = useUserContext()
   const hasBids = bids.length > 0;
+  const shouldShowBiddingButton = !item.endDate || item.endDate >= new Date();
+  const isOwner = userId === item.userId;
   return (
     <div className="flex w-full flex-col items-center space-y-8">
       <div className="flex w-full justify-between">
         <h2 className="text-3xl font-bold">
-          {
-            hasBids
-              ? `Current bids`
-              : "Currently no bids"
-          }
+          {hasBids ? `Current bids` : `Auction has ended`}
         </h2>
-        {hasBids && <BiddingButton state="manual" />}
+        {shouldShowBiddingButton && !isOwner && <BiddingButton state="manual" />}
       </div>
       {hasBids ? (
         <div className="flex h-full flex-col justify-between self-start w-full">
@@ -56,14 +58,14 @@ const BiddingInfo = ({ bids }: Props) => {
             <h2 className="text-2xl font-semibold">
               No bids have been placed yet
             </h2>
-            <p className="text-center">Be the first to bid on this item.</p>
+            <p className="text-center">Please check back later.</p>
             <Image
               src={`/notfound.svg`}
               alt="notfound"
               width={200}
               height={200}
             />
-            <BiddingButton state="manual" />
+            {userId !== item.userId && <BiddingButton state="manual" />}
           </div>
         </div>
       )}
@@ -72,3 +74,4 @@ const BiddingInfo = ({ bids }: Props) => {
 };
 
 export default BiddingInfo;
+

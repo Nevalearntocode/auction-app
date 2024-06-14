@@ -25,7 +25,7 @@ const Notification = (props: Props) => {
         isVisible={isVisible}
         onClose={() => setIsVisible(false)}
         renderItem={({item, ...props}) => (
-          <NotificationCell {...props} item={item}>
+          <NotificationCell {...props} item={item} key={item.id}>
             <NotificationMessage
               amount={item.data?.amount}
               name={item.data?.name}

@@ -1,11 +1,13 @@
 import { database } from "@/db/database";
 import { items } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, gt } from "drizzle-orm";
 import { getCurrentSession } from "./users";
 
 export async function getAllItems() {
   // todo: add pagination
-  const allItems = await database.query.items.findMany({});
+  const allItems = await database.query.items.findMany({
+    where: gt(items.endDate, new Date()),
+  });
   return allItems;
 }
 
