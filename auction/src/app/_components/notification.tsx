@@ -1,10 +1,12 @@
 "use client";
 
 import {
+  NotificationCell,
   NotificationFeedPopover,
   NotificationIconButton,
 } from "@knocklabs/react";
 import React, { useRef, useState } from "react";
+import NotificationMessage from "./notification-message";
 
 type Props = {};
 
@@ -22,7 +24,15 @@ const Notification = (props: Props) => {
         buttonRef={notifButtonRef}
         isVisible={isVisible}
         onClose={() => setIsVisible(false)}
-        renderItem={(props) => <div>hello</div>}
+        renderItem={({item, ...props}) => (
+          <NotificationCell {...props} item={item}>
+            <NotificationMessage
+              amount={item.data?.amount}
+              name={item.data?.name}
+              id={item.data?.id}
+            />
+          </NotificationCell>
+        )}
       />
     </>
   );
