@@ -24,6 +24,15 @@ export async function createBidAction(itemId: number, amount: number) {
   if (!item) {
     throw new Error("Item not found");
   }
+
+  if(item.endDate < new Date()) {
+    throw new Error("Auction has ended");
+  }
+
+  if(item.userId === user.id) {
+    throw new Error("You cannot bid on your own item");
+  }
+
   const latestBidValue = item.currentBid + amount;
 
   await database.insert(bids).values({
