@@ -35,6 +35,6 @@ NEXT_PUBLIC_KNOCK_FEED_ID=""
 ### Demo images:
 !["Auction Demos"](demos/auctions-display.png)
 !["Bidding Display"](demos/bidding-display.png)
-!["Create Auction Notification"](demos/create-auction-notification-display.png)
+!["Create Auction Notification"](demos/create-auction-n-noti-display.png)
 !["No Bids Display"](demos/no-bids-display.png)
 
