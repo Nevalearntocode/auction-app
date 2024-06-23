@@ -21,18 +21,20 @@ const BiddingInfo = ({ bids }: Props) => {
   const item = useItemContext();
   const userId = useUserContext()
   const hasBids = bids.length > 0;
-  const shouldShowBiddingButton = !item.endDate || item.endDate >= new Date();
+  const shouldShowBiddingButton = !item.endDate || item.endDate <= new Date();
   const isOwner = userId === item.userId;
   return (
     <div className="flex w-full flex-col items-center space-y-8">
       <div className="flex w-full justify-between">
         <h2 className="text-3xl font-bold">
-          {hasBids ? `Current bids` : `Auction has ended`}
+          {!shouldShowBiddingButton ? `Current bids` : `Auction has ended`}
         </h2>
-        {shouldShowBiddingButton && !isOwner && <BiddingButton state="manual" />}
+        {!shouldShowBiddingButton && !isOwner && (
+          <BiddingButton state="manual" />
+        )}
       </div>
       {hasBids ? (
-        <div className="flex h-full flex-col justify-between self-start w-full">
+        <div className="flex h-full w-full flex-col justify-between self-start">
           <ul className="space-y-8">
             {bids.map((bid) => (
               <li
